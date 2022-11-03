@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+    <!-- 配置spring mvc -->
+    <!-- 1：开启spring mvc注解模式 -->
+    <!-- 简化配置：
+        (1) 自动注册DefaultAnnotationHandlerMapping,也就是说url到handler映射是通过注解的方式
+                   AnnotationMethodHandlerAdapter, 基于注解方法的handler适配器；
+                   这两个会被自动注册到spring 容器中；从而可以使用注解来映射url与对应的方法
+        (2) 提供一系列：数据绑定，数字和日期的format转换 @NumberFormat, @DataTimeFormat,
+                xml, json 默认读写支持
+    -->
+    <mvc:annotation-driven/>
+
+    <!-- servlet-mapping 映射路径："/" -->
+    <!-- 2：静态资源默认servlet配置
+            1：加入对静态资源的处理：js,gif,png
+            2：允许使用"/"做整体映射
+     -->
+
+    <mvc:default-servlet-handler/>
+
+    <!-- 3:配置jsp显示ViewResolver,json不需要配置，只要注解就行 -->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="viewClass" value = "org.springframework.web.servlet.view.JstlView"/>
+        <property name="prefix" value = "/WEB-INF/jsp/"/>
+        <property name="suffix" value = ".jsp"/>
+    </bean>
+
+    <!-- 4:扫描web相关的bean-->
+    <!-- 把自己的controller放到spring容器中 -->
+    <context:component-scan base-package="org.seckill.web"></context:component-scan>
+
+</beans>
